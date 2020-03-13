@@ -1,8 +1,9 @@
-import pandas as pd
 import unittest
-import app
-from unittest.mock import patch, MagicMock, Mock
+from unittest.mock import patch, Mock
 
+import pandas as pd
+
+import app
 
 test_data = pd.DataFrame({'name': ['Bob', 'Amy'], 'score':[10, 20]})
 
@@ -14,7 +15,7 @@ class AppTest(unittest.TestCase):
         """
             Test processor is summing the score column when process is called
         """
-        dao.load_data = MagicMock(return_value=test_data)
+        dao.load_data.return_value = test_data
         p = app.Processor(dao)
         results = p.process()
 
@@ -22,11 +23,12 @@ class AppTest(unittest.TestCase):
         self.assertEqual(sum(test_data.score), results)
 
     @patch('app.Dao')
-    def test_run_dao_exception_occurred(self, dao:app.Dao):
+    def test_dao_throws_exception_expect_process_propagate_exception(self, dao:app.Dao):
         """
             Test process method returns -1 upon exception
         """
         dao.load_data = Mock(side_effect=Exception('some exception'))
         p = app.Processor(dao)
 
-        self.assertEqual(-1, p.process())
+        with self.assertRaises(Exception):
+            self.assertEqual(-1, p.process())

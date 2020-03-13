@@ -1,6 +1,11 @@
 import pandas as pd
 
 
+class MyException(Exception):
+    def msg(self):
+        return 'an exception occurred'
+
+
 class Dao:
 
     def __init__(self, csv_file:str):
@@ -19,8 +24,5 @@ class Processor:
             Provide a sum of the score columns of the data frame loaded using the given dao
         :return: sum of scores
         """
-        try:
-            df = self.dao.load_data(5)
-            return df.score.sum()
-        except:
-            return -1
+        df = self.dao.load_data(5)
+        return df.score.sum()
