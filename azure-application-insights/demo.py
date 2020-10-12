@@ -1,18 +1,12 @@
-from opencensus.ext.azure.trace_exporter import AzureExporter
-from opencensus.trace.samplers import AlwaysOnSampler
-from opencensus.trace.tracer import Tracer
-from opencensus.trace.status import Status
-from opencensus.trace.span_context import SpanContext
-from opencensus.trace import config_integration
 import logging
-from opencensus.ext.azure.log_exporter import AzureLogHandler
-
 import time
-import logging
 from random import randrange
 
-
-# TODO: replace the all-zero GUID with your instrumentation key.
+from opencensus.ext.azure.log_exporter import AzureLogHandler
+from opencensus.ext.azure.trace_exporter import AzureExporter
+from opencensus.trace.samplers import AlwaysOnSampler
+from opencensus.trace.span_context import SpanContext
+from opencensus.trace.tracer import Tracer
 
 RANGE = 10
 FAILURE_NUMBER = 5
